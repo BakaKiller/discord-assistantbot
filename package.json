@@ -1,0 +1,24 @@
+{
+  "name": "discord-assistantbot",
+  "version": "1.0.0",
+  "description": "A bot to help managing your discord !",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BakaKiller/discord-assistantbot.git"
+  },
+  "author": "BakaKiller",
+  "license": "Beerware",
+  "bugs": {
+    "url": "https://github.com/BakaKiller/discord-assistantbot/issues"
+  },
+  "homepage": "https://github.com/BakaKiller/discord-assistantbot#readme",
+  "dependencies": {
+    "jsonfile": "^4.0.0",
+    "discord.js": "^11.4.2",
+    "node-mysql": "^0.4.2"
+  }
+}
