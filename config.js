@@ -7,12 +7,14 @@ class Settings extends EventEmitter{
         this.Roles = {};
         this.Prefix = '/';
         this.Token = '';
-        this.Welcomechan = '';
         this.Helpintro = '';
         this.Helpoutro = '';
         this.Debugchan = '';
-        this.Welcome = '';
-        this.Goodbye = '';
+        this.Dbhost = '';
+        this.Dbname = '';
+        this.Dbuser = '';
+        this.Dbpwd = '';
+        this.Lang = '';
         let self = this;
         jsonfile.readFile('config.json', function (err, obj) {
             if (err) {
@@ -21,12 +23,14 @@ class Settings extends EventEmitter{
                 self.Roles = obj.roles;
                 self.Prefix = obj.prefix;
                 self.Token = obj.token;
-                self.Welcomechan = obj.welcomechan;
                 self.Helpintro = obj.helpintro;
                 self.Helpoutro = obj.helpoutro;
                 self.Debugchan = obj.debugchan;
-                self.Welcome = obj.welcomemessage;
-                self.Goodbye = obj.goodbyemessage;
+                self.Lang = obj.lang;
+                self.Dbhost = obj.dbhost;
+                self.Dbname = obj.dbname;
+                self.Dbuser = obj.dbuser;
+                self.Dbpwd = obj.dbpwd;
                 self.emit('ready');
             }
         });
@@ -34,15 +38,17 @@ class Settings extends EventEmitter{
 
     save() {
         let settings = {
-            "prefix": this.Prefix,
             "roles": this.Roles,
+            "prefix": this.Prefix,
             "token": this.Token,
-            "welcomechan": this.Welcomechan,
             "helpintro": this.Helpintro,
             "helpoutro": this.Helpoutro,
-            "jsonaddress": this.Debugchan,
-            "welcomemessage": this.Welcome,
-            "goodbyemessage": this.Goodbye
+            "debugchan": this.Debugchan,
+            "lang": this.Lang,
+            "dbhost": this.Dbhost,
+            "dbname": this.Dbname,
+            "dbuser": this.Dbuser,
+            "dbpwd": this.Dbpwd
         };
         jsonfile.writeFile('settings.json', settings, function (err) {
             if (err) {
@@ -78,15 +84,6 @@ class Settings extends EventEmitter{
         return this.Token;
     }
 
-    set welcomechan(value) {
-        this.Welcomechan = value;
-        this.save();
-    }
-
-    get welcomechan() {
-        return this.Welcomechan;
-    }
-
     set helpintro(value) {
         this.Helpintro = value;
         this.save();
@@ -114,22 +111,49 @@ class Settings extends EventEmitter{
         return this.Debugchan;
     }
 
-    set welcome(value) {
-        this.Welcome = value;
+    set lang(value) {
+        this.Lang = value;
         this.save();
     }
 
-    get welcome() {
-        return this.Welcome;
+    get lang() {
+        return this.Lang;
     }
 
-    set goodbye(value) {
-        this.Goodbye = value;
+    set dbhost(value) {
+        this.Dbhost = value;
         this.save();
     }
 
-    get goodbye() {
-        return this.Goodbye;
+    get dbhost() {
+        return this.Dbhost;
+    }
+
+    set dbname(value) {
+        this.Dbname = value;
+        this.save();
+    }
+
+    get dbname() {
+        return this.Dbname;
+    }
+
+    set dbuser(value) {
+        this.Dbuser = value;
+        this.save();
+    }
+
+    get dbuser() {
+        return this.Dbuser;
+    }
+
+    set dbpwd(value) {
+        this.Dbpwd = value;
+        this.save();
+    }
+
+    get dbpwd() {
+        return this.Dbpwd;
     }
 }
 

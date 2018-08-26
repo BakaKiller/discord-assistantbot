@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/BakaKiller/discord-assistantbot#readme",
   "dependencies": {
-    "jsonfile": "^4.0.0",
     "discord.js": "^11.4.2",
+    "jsonfile": "^4.0.0",
     "node-mysql": "^0.4.2"
   }
 }

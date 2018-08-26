@@ -2,7 +2,11 @@
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const db = require('node-mysql');
+const DB = db.DB;
 const config = require('./config.js');
+const Lang = require('./lang.js');
+const lang = new Lang();
 
 let debugchan;
 let prefix;
@@ -10,16 +14,19 @@ let message;
 let messageparts;
 let text;
 
-
 config.on('ready', () => {
     prefix = config.prefix;
+    lang.init(config.lang);
+});
+
+lang.on('ready', () => {
     client.login(config.token);
 });
 
 client.on('ready', () => {
     debugchan = client.channels.get(config.debugchan);
 
-    console.log(`Logged in as ${client.user.tag}!`);
+    console.log(lang.getstring('loggedas', `${client.user.tag}`));
     client.on('message', (msg) => {
         if (msg.content.substr(0, prefix.length) === prefix) {
             message = (msg.content.substr(prefix.length)).toLowerCase();
@@ -29,7 +36,7 @@ client.on('ready', () => {
                     if (msg.member === null || is_admin(msg.member)) {
                         msg.reply('Pong ! (`' + (new Date().getTime() - msg.createdTimestamp) + 'ms`)');
                     } else {
-                        debugchan.send('Not an admin ? :r');
+                        debugchan.send(msg.author.tag + lang);
                     }
                     break;
                 case "sign":
@@ -37,6 +44,11 @@ client.on('ready', () => {
                         sign(msg.member);
                     }
                     msg.delete();
+                    break;
+                case "warn":
+                    if (msg.member !== null) {
+                        warn(msg.guild, msg.author, messageparts[1].match(/\d*\d/)[0], message.substr(0, (messageparts[0].length + messageparts[1].length)));
+                    }
             }
         }
     })
@@ -55,6 +67,24 @@ function sign(guildmember) {
     }
 }
 
+function warn(guild, warner, memberid, message) {
+    let role = guild.roles.get(config.roles.Warned);
+    let member = guild.members.get(memberid);
+    if (!member.roles.has(role.id)) {
+        member.addRole(role);
+    } else {
+        debugchan.send(member.user.tag + ' : ' + lang.getstring('alreadywarned'));
+    }
+}
+
 function is_admin(guildmember) {
     return guildmember.roles.has(config.roles.Admin);
+}
+
+function is_mod(guildmember) {
+    return guildmember.roles.has(config.roles.Modo);
+}
+
+function is_mod_or_admin(guildmember) {
+    return (is_admin(guildmember) || is_mod(guildmember));
 }
