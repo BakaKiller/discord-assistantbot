@@ -19,6 +19,7 @@
   "dependencies": {
     "discord.js": "^11.4.2",
     "jsonfile": "^4.0.0",
+    "mysql": "^2.16.0",
     "node-mysql": "^0.4.2"
   }
 }

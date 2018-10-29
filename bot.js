@@ -2,8 +2,6 @@
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const db = require('node-mysql');
-const DB = db.DB;
 const config = require('./config.js');
 const Lang = require('./lang.js');
 const lang = new Lang();
