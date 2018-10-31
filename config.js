@@ -10,6 +10,8 @@ class Settings extends EventEmitter{
         this.Helpintro = '';
         this.Helpoutro = '';
         this.Debugchan = '';
+        this.Askchan = '';
+        this.Askadminchan = '';
         this.Dbhost = '';
         this.Dbname = '';
         this.Dbuser = '';
@@ -26,6 +28,8 @@ class Settings extends EventEmitter{
                 self.Helpintro = obj.helpintro;
                 self.Helpoutro = obj.helpoutro;
                 self.Debugchan = obj.debugchan;
+                self.Askchan = obj.askchan;
+                self.Askadminchan = obj.askadminchan;
                 self.Lang = obj.lang;
                 self.Dbhost = obj.dbhost;
                 self.Dbname = obj.dbname;
@@ -44,6 +48,8 @@ class Settings extends EventEmitter{
             "helpintro": this.Helpintro,
             "helpoutro": this.Helpoutro,
             "debugchan": this.Debugchan,
+            "askchan": this.Askchan,
+            "askadminchan": this.Askadminchan,
             "lang": this.Lang,
             "dbhost": this.Dbhost,
             "dbname": this.Dbname,
@@ -109,6 +115,24 @@ class Settings extends EventEmitter{
 
     get debugchan() {
         return this.Debugchan;
+    }
+
+    set askchan(value) {
+        this.Askchan = value;
+        this.save();
+    }
+
+    get askchan() {
+        return this.Askchan;
+    }
+
+    set askadminchan(value) {
+        this.Askadminchan = value;
+        this.save();
+    }
+
+    get askadminchan() {
+        return this.Askadminchan;
     }
 
     set lang(value) {

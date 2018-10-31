@@ -7,6 +7,8 @@ const Lang = require('./lang.js');
 const lang = new Lang();
 
 let debugchan;
+let askchan;
+let askadminchan;
 let prefix;
 let message;
 let messageparts;
@@ -23,6 +25,8 @@ lang.on('ready', () => {
 
 client.on('ready', () => {
     debugchan = client.channels.get(config.debugchan);
+    askchan = client.channels.get(config.askchan);
+    askadminchan = client.channels.get(config.askadminchan);
 
     console.log(lang.getstring('loggedas', `${client.user.tag}`));
     client.on('message', (msg) => {
@@ -34,7 +38,7 @@ client.on('ready', () => {
                     if (msg.member === null || is_admin(msg.member)) {
                         msg.reply('Pong ! (`' + (new Date().getTime() - msg.createdTimestamp) + 'ms`)');
                     } else {
-                        debugchan.send(msg.author.tag + lang);
+                        debugchan.send(msg.author.tag);
                     }
                     break;
                 case "sign":
@@ -43,10 +47,12 @@ client.on('ready', () => {
                     }
                     msg.delete();
                     break;
-                case "warn":
-                    if (msg.member !== null) {
-                        warn(msg.guild, msg.author, messageparts[1].match(/\d*\d/)[0], message.substr(0, (messageparts[0].length + messageparts[1].length)));
-                    }
+                // case "warn":
+                //     if (msg.member !== null) {
+                //         warn(msg.guild, msg.author, messageparts[1].match(/\d*\d/)[0], message.substr(0, (messageparts[0].length + messageparts[1].length)));
+                //     }
+                case "ask":
+                    ask(messageparts, msg.author.tag);
             }
         }
     })
@@ -73,6 +79,12 @@ function warn(guild, warner, memberid, message) {
     } else {
         debugchan.send(member.user.tag + ' : ' + lang.getstring('alreadywarned'));
     }
+}
+
+function ask(msg, authortag) {
+    msg.splice(0, 1);
+    msg = msg.join(' ');
+    askadminchan.send(authortag + ' : ' + msg);
 }
 
 function is_admin(guildmember) {
