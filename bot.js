@@ -5,6 +5,7 @@ const client = new Discord.Client();
 const config = require('./config.js');
 const Lang = require('./lang.js');
 const lang = new Lang();
+const mysql = require('mysql');
 
 let debugchan;
 let askchan;
@@ -12,6 +13,7 @@ let askadminchan;
 let prefix;
 let message;
 let messageparts;
+let con;
 let text;
 
 config.on('ready', () => {
@@ -28,6 +30,19 @@ client.on('ready', () => {
     askchan = client.channels.get(config.askchan);
     askadminchan = client.channels.get(config.askadminchan);
 
+    con = mysql.createConnection({
+        host: config.dbhost,
+        user: config.dbuser,
+        password: config.dbpwd,
+        database: config.dbname
+    });
+    con.connect(function (err) {
+        if (err) {
+            debugchan.send(err.message);
+        } else {
+            debugchan.send('DB OK');
+        }
+    });
     console.log(lang.getstring('loggedas', `${client.user.tag}`));
     client.on('message', (msg) => {
         if (msg.content.substr(0, prefix.length) === prefix) {
@@ -84,7 +99,14 @@ function warn(guild, warner, memberid, message) {
 function ask(msg, authortag) {
     msg.splice(0, 1);
     msg = msg.join(' ');
-    askadminchan.send(authortag + ' : ' + msg);
+    let query = 'INSERT INTO questions (user, question, validation) VALUES ("' + authortag + '", "' + msg + '", 0);';
+    con.query(query, function(err, result) {
+        if (err) {
+            debugchan.send(err.message);
+        } else {
+            askadminchan.send(result.insertId + ' - ' + authortag + ' : ' + msg);
+        }
+    });
 }
 
 function is_admin(guildmember) {
