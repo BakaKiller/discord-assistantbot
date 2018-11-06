@@ -98,7 +98,8 @@ function warn(guild, warner, memberid, message) {
 
 function ask(msg, authortag) {
     msg.splice(0, 1);
-    msg = msg.join(' ');
+    msg = mysql_real_escape_string(msg.join(' '));
+    authortag = mysql_real_escape_string(authortag);
     let query = 'INSERT INTO questions (user, question, validation) VALUES ("' + authortag + '", "' + msg + '", 0);';
     con.query(query, function(err, result) {
         if (err) {
@@ -119,4 +120,29 @@ function is_mod(guildmember) {
 
 function is_mod_or_admin(guildmember) {
     return (is_admin(guildmember) || is_mod(guildmember));
+}
+
+function mysql_real_escape_string(str) {
+    return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
+        switch (char) {
+            case "\0":
+                return "\\0";
+            case "\x08":
+                return "\\b";
+            case "\x09":
+                return "\\t";
+            case "\x1a":
+                return "\\z";
+            case "\n":
+                return "\\n";
+            case "\r":
+                return "\\r";
+            case "\"":
+            case "'":
+            case "\\":
+            case "%":
+                return "\\"+char; // prepends a backslash to backslash, percent,
+                                  // and double/single quotes
+        }
+    });
 }
