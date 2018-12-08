@@ -43,7 +43,6 @@ client.on('ready', () => {
             debugchan.send(err.message);
             throw err;
         } else {
-            debugchan.send('DB OK');
             sql = new mysql_simplifier(con);
         }
     });
@@ -72,6 +71,14 @@ client.on('ready', () => {
                 //     }
                 case "ask":
                     ask(messageparts, msg.author.tag);
+                    break;
+                case "validquestion":
+                    if (msg.member !== null && is_admin(msg.member)) {
+                        tryvalidquestion(messageparts[1]);
+                    } else {
+                        msg.reply('You are not allowed to try and valid a question ! This will be reported.');
+                        debugchan.send('<@' + config.roles.Admin + '>' + msg.author.tag + ' has tried to valid question ' + messageparts[1] + '.');
+                    }
             }
         }
     })
@@ -127,7 +134,23 @@ function sendquestion(chan, id, authortag, msg) {
 }
 
 function senddebug(err) {
+    console.log(err);
     debugchan.send(err.msg);
+}
+
+function validquestion(results, fields) {
+    askchan.send(results[0].question);
+}
+
+function tryvalidquestion(id) {
+    sql.select_from('questions', ['question', 'validation'], {id: id}, senddebug, function(results, fields) {
+        if (results[0].validation !== 0) {
+            debugchan.send('Question ' + id + ' is already valid !');
+        } else {
+            sql.update('questions', id, ['validation'], [1], senddebug);
+            validquestion(results, fields);
+        }
+    });
 }
 
 function is_admin(guildmember) {

@@ -6,10 +6,6 @@ class mysql_simplifier extends EventEmitter{
         this.q = con;
     }
 
-    select_one_from(table, fields, where, onerr, action) {
-
-    }
-
     select_from(table, fields, where, onerr, action) {
         let fieldlist = '';
         if (typeof fields === typeof undefined) {
@@ -80,6 +76,31 @@ class mysql_simplifier extends EventEmitter{
                 action(result, fields, values);
             }
         });
+    }
+
+    update(table, id, fields, values, onerr, action) {
+        let query = 'UPDATE ' + table + ' SET ';
+        let set = '';
+        let tempval;
+        for (let i = 0; i < fields.length; i++) {
+            if (set !== '') {
+                set += ', ';
+            }
+            set += fields[i] + ' = ';
+            tempval = values[i];
+            if (!is_numeric(values[i])) {
+                tempval = '"' + mysql_real_escape_string(tempval) + '"';
+            }
+            set += tempval;
+        }
+        query += set + ' WHERE id = ' + id + ';';
+        this.q.query(query, function (err, result) {
+            if (err && typeof onerr !== typeof undefined) {
+                onerr(err);
+            } else if (typeof action !== typeof undefined) {
+                action(result, fields, values);
+            }
+        })
     }
 }
 
