@@ -77,7 +77,7 @@ client.on('ready', () => {
                         tryvalidquestion(messageparts[1]);
                     } else {
                         msg.reply('You are not allowed to try and valid a question ! This will be reported.');
-                        debugchan.send('<@' + config.roles.Admin + '>' + msg.author.tag + ' has tried to valid question ' + messageparts[1] + '.');
+                        debugchan.send('<@&' + config.roles.Admin + '> ' + msg.author.tag + ' has tried to valid question ' + messageparts[1] + '.');
                     }
             }
         }
