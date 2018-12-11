@@ -4,7 +4,8 @@
   "description": "A bot to help managing your discord !",
   "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "installdb": "./installdb"
   },
   "repository": {
     "type": "git",
