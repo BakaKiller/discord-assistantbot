@@ -54,7 +54,8 @@ client.on('ready', () => {
             switch (messageparts[0]) {
                 case "ping":
                     if (msg.member === null || is_admin(msg.member)) {
-                        msg.reply('Pong ! (`' + (new Date().getTime() - msg.createdTimestamp) + 'ms`)');
+                        console.log("Now : " + new Date().getTime() + " , timestamp : " + msg.createdTimestamp);
+                        msg.reply('Pong ! (`' + (new Date().getTime() - (msg.createdTimestamp * 1000)) + 'ms`)');
                     } else {
                         debugchan.send(msg.author.tag);
                     }
