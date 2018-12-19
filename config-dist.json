@@ -11,5 +11,6 @@
   "dbhost": "",
   "dbname": "",
   "dbuser": "",
-  "dbpwd": ""
+  "dbpwd": "",
+  "timezone": ""
 }

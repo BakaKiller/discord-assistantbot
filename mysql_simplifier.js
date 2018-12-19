@@ -88,7 +88,8 @@ class mysql_simplifier extends EventEmitter{
             }
             set += fields[i] + ' = ';
             tempval = values[i];
-            if (!is_numeric(values[i])) {
+            if (!is_numeric(tempval) && typeof tempval !== typeof undefined) {
+                console.log(tempval + ' # ' + typeof tempval);
                 tempval = '"' + mysql_real_escape_string(tempval) + '"';
             }
             set += tempval;
@@ -107,28 +108,32 @@ class mysql_simplifier extends EventEmitter{
 module.exports = mysql_simplifier;
 
 function mysql_real_escape_string(str) {
-    return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
-        switch (char) {
-            case "\0":
-                return "\\0";
-            case "\x08":
-                return "\\b";
-            case "\x09":
-                return "\\t";
-            case "\x1a":
-                return "\\z";
-            case "\n":
-                return "\\n";
-            case "\r":
-                return "\\r";
-            case "\"":
-            case "'":
-            case "\\":
-            case "%":
-                return "\\"+char; // prepends a backslash to backslash, percent,
-                                  // and double/single quotes
-        }
-    });
+    if (typeof str === 'string') {
+        return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
+            switch (char) {
+                case "\0":
+                    return "\\0";
+                case "\x08":
+                    return "\\b";
+                case "\x09":
+                    return "\\t";
+                case "\x1a":
+                    return "\\z";
+                case "\n":
+                    return "\\n";
+                case "\r":
+                    return "\\r";
+                case "\"":
+                case "'":
+                case "\\":
+                case "%":
+                    return "\\" + char; // prepends a backslash to backslash, percent,
+                                        // and double/single quotes
+            }
+        });
+    } else {
+        return str;
+    }
 }
 
 function is_numeric(nb) {

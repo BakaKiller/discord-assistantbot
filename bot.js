@@ -7,6 +7,7 @@ const Lang = require('./lang.js');
 const lang = new Lang();
 const mysql = require('mysql');
 const mysql_simplifier = require('./mysql_simplifier');
+const Log = require('./logs.js');
 
 let debugchan;
 let askchan;
@@ -16,9 +17,11 @@ let message;
 let messageparts;
 let con;
 let sql;
+let logs;
 let text;
 
 config.on('ready', () => {
+    process.env.TZ=config.timezone;
     prefix = config.prefix;
     lang.init(config.lang);
 });
@@ -44,6 +47,7 @@ client.on('ready', () => {
             throw err;
         } else {
             sql = new mysql_simplifier(con);
+            logs = new Log(sql);
         }
     });
     console.log(lang.getstring('loggedas', `${client.user.tag}`));
@@ -54,8 +58,7 @@ client.on('ready', () => {
             switch (messageparts[0]) {
                 case "ping":
                     if (msg.member === null || is_admin(msg.member)) {
-                        console.log("Now : " + new Date().getTime() + " , timestamp : " + msg.createdTimestamp);
-                        msg.reply('Pong ! (`' + (new Date().getTime() - (msg.createdTimestamp * 1000)) + 'ms`)');
+                        msg.reply('Pong !');
                     } else {
                         debugchan.send(msg.author.tag);
                     }
@@ -75,10 +78,10 @@ client.on('ready', () => {
                     break;
                 case "validquestion":
                     if (msg.member !== null && is_admin(msg.member)) {
-                        tryvalidquestion(messageparts[1]);
+                        tryvalidquestion(messageparts[1], msg.author);
                     } else {
-                        msg.reply('You are not allowed to try and valid a question ! This will be reported.');
-                        debugchan.send('<@&' + config.roles.Admin + '> ' + msg.author.tag + ' has tried to valid question ' + messageparts[1] + '.');
+                        msg.reply(lang.getstring('cantvalid'));
+                        debugchan.send('<@&' + config.roles.Admin + '> ' + msg.author.tag + lang.getstring('triedtovalid') + messageparts[1] + '.');
                     }
             }
         }
@@ -95,6 +98,7 @@ function sign(guildmember) {
     let memberrole = guild.roles.get(config.roles.Member);
     if (!guildmember.roles.has(memberrole)) {
         guildmember.addRole(memberrole);
+        logs.add('signed', user.tag, "");
     }
 }
 
@@ -108,25 +112,16 @@ function warn(guild, warner, memberid, message) {
     }
 }
 
-function ask(msg, authortag) {
+function ask(msg, authortag, userid) {
     msg.splice(0, 1);
     msg = msg.join(' ');
-    // msg = mysql_real_escape_string(msg.join(' '));
-    // authortag = mysql_real_escape_string(authortag);
-    // let query = 'INSERT INTO questions (user, question, validation) VALUES ("' + authortag + '", "' + msg + '", 0);';
-    // con.query(query, function(err, result) {
-    //     if (err) {
-    //         debugchan.send(err.message);
-    //     } else {
-    //         askadminchan.send(result.insertId + ' - ' + authortag + ' : ' + msg);
-    //     }
-    // });
     let fields = ['user', 'question', 'validation'];
     let values = [authortag, msg, 0];
     sql.insert_into('questions', fields, values, senddebug, insertquestionaction);
 }
 
 function insertquestionaction(result, fields, values) {
+    logs.add('asked', values[0], 'questionid: ' + result.insertId);
     sendquestion(askadminchan, result.insertId, values[0], values[1]);
 }
 
@@ -143,12 +138,13 @@ function validquestion(results, fields) {
     askchan.send(results[0].question);
 }
 
-function tryvalidquestion(id) {
+function tryvalidquestion(id, author) {
     sql.select_from('questions', ['question', 'validation'], {id: id}, senddebug, function(results, fields) {
         if (results[0].validation !== 0) {
-            debugchan.send('Question ' + id + ' is already valid !');
+            debugchan.send(lang.getstring('alreadyvalid', id));
         } else {
             sql.update('questions', id, ['validation'], [1], senddebug);
+            logs.add('validquestion', author.tag, 'questionid: ' + id);
             validquestion(results, fields);
         }
     });

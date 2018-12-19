@@ -17,6 +17,7 @@ class Settings extends EventEmitter{
         this.Dbuser = '';
         this.Dbpwd = '';
         this.Lang = '';
+        this.Timezone = '';
         let self = this;
         jsonfile.readFile('config.json', function (err, obj) {
             if (err) {
@@ -35,6 +36,7 @@ class Settings extends EventEmitter{
                 self.Dbname = obj.dbname;
                 self.Dbuser = obj.dbuser;
                 self.Dbpwd = obj.dbpwd;
+                self.Timezone = obj.timezone;
                 self.emit('ready');
             }
         });
@@ -54,7 +56,8 @@ class Settings extends EventEmitter{
             "dbhost": this.Dbhost,
             "dbname": this.Dbname,
             "dbuser": this.Dbuser,
-            "dbpwd": this.Dbpwd
+            "dbpwd": this.Dbpwd,
+            "timezone": this.Timezone
         };
         jsonfile.writeFile('settings.json', settings, function (err) {
             if (err) {
@@ -178,6 +181,15 @@ class Settings extends EventEmitter{
 
     get dbpwd() {
         return this.Dbpwd;
+    }
+
+    set timezone(value) {
+        this.Timezone = value;
+        this.save();
+    }
+
+    get timezone() {
+        return this.Timezone;
     }
 }
 

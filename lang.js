@@ -8,11 +8,17 @@ class Lang extends EventEmitter {
         this.Translations = {
             'en': {
                 'loggedas': 'Logged in as [#0]!',
-                'alreadywarned': 'This user has already been warned. You may consider being rougher ?'
+                'alreadywarned': 'This user has already been warned. You may consider being rougher ?',
+                'cantvalid': 'You are not allowed to valid a question ! This will be reported.',
+                'triedtovalid': 'You are not allowed to valid a question ! This will be reported.',
+                'alreadyvalid': 'Question [#0] is already valid !'
             },
             'fr': {
                 'loggedas': 'Connecté en tant que [#0]!',
-                'alreadywarned': 'Cet·te utilisateurice a déjà été averti·e. Vous devriez penser à être plus violent·e ?'
+                'alreadywarned': 'Cet·te utilisateurice a déjà été averti·e. Vous devriez penser à être plus violent·e ?',
+                'cantvalid': 'Vous ne pouvez pas valider une question ! Ceci sera signalé.',
+                'triedtovalid': 'Vous ne pouvez pas valider une question ! Ceci sera signalé.',
+                'alreadyvalid': 'Question [#0] déjà validée !'
             }
         };
     }
