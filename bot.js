@@ -76,6 +76,14 @@ client.on('ready', () => {
                 case "ask":
                     ask(messageparts, msg.author.tag);
                     break;
+                case "clean":
+                    if (msg.member !== null && is_mod_or_admin(msg.member)) {
+                        clean(msg.channel, messageparts[1]);
+                    } else {
+                        msg.reply(lang.getstring('cantclean'));
+                        debugchan.send('<@&' + config.roles.Admin + '> ' + msg.author.tag + lang.getstring('triedtoclean') + ' <#' + msg.channel.id + '>');
+                    }
+                    break;
                 case "validquestion":
                     if (msg.member !== null && is_admin(msg.member)) {
                         tryvalidquestion(messageparts[1], msg.author);
@@ -112,6 +120,9 @@ function warn(guild, warner, memberid, message) {
     }
 }
 
+function clean(chan, nb) {
+    chan.fetchMessages({limit: nb}).then(messages => messages.forEach(msg => msg.delete()))
+}
 function ask(msg, authortag, userid) {
     msg.splice(0, 1);
     msg = msg.join(' ');
