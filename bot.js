@@ -71,7 +71,7 @@ client.on('ready', () => {
                     break;
                 case "ban":
                 case "pshit":
-                    if (msg.member !== null && is_mod_or_admin(msg.member) {
+                    if (msg.member !== null && is_mod_or_admin(msg.member)) {
                         ban(messageparts[1].match(/\d*\d/)[0], msg.member, message.substr(0, (messageparts[0].length + messageparts[1].length)));
                     } else {
                         msg.reply(lang.getstring('cantban'));
