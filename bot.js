@@ -81,6 +81,7 @@ client.on('ready', () => {
                 //     if (msg.member !== null) {
                 //         warn(msg.guild, msg.author, messageparts[1].match(/\d*\d/)[0], message.substr(0, (messageparts[0].length + messageparts[1].length)));
                 //     }
+                    break;
                 case "ask":
                     ask(messageparts, msg.author.tag);
                     break;
