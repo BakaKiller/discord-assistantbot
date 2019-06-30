@@ -69,6 +69,14 @@ client.on('ready', () => {
                     }
                     msg.delete();
                     break;
+                case "ban":
+                case "pshit":
+                    if (msg.member !== null && is_mod_or_admin(msg.member) {
+                        ban(messageparts[1].match(/\d*\d/)[0], msg.member, message.substr(0, (messageparts[0].length + messageparts[1].length)));
+                    } else {
+                        msg.reply(lang.getstring('cantban'));
+                        debugchan.send('<@&' + config.roles.Admin + '> ' + msg.author.tag + lang.getstring('triedtoban') + messageparts[1] + '.');
+                    }
                 // case "warn":
                 //     if (msg.member !== null) {
                 //         warn(msg.guild, msg.author, messageparts[1].match(/\d*\d/)[0], message.substr(0, (messageparts[0].length + messageparts[1].length)));
@@ -110,6 +118,14 @@ function sign(guildmember) {
     }
 }
 
+function ban(memberid, banner, reason = null) {
+    if (is_mod_or_admin(banner)) {
+        let guildmember = banner.guild.members.get(memberid);
+        guildmember.ban(reason);
+        logs.add('banned', banner.tag, guildmember.tag);
+    }
+}
+
 function warn(guild, warner, memberid, message) {
     let role = guild.roles.get(config.roles.Warned);
     let member = guild.members.get(memberid);
@@ -123,6 +139,7 @@ function warn(guild, warner, memberid, message) {
 function clean(chan, nb) {
     chan.fetchMessages({limit: nb}).then(messages => messages.forEach(msg => msg.delete()))
 }
+
 function ask(msg, authortag, userid) {
     msg.splice(0, 1);
     msg = msg.join(' ');
