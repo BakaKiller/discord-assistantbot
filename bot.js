@@ -184,13 +184,14 @@ function tryvalidquestion(id, author) {
 }
 
 function slow_mo(guildmember, time, channel) {
+    console.log(typeof channel),
     assert(typeof channel == typeof Discord.TextChannel);
-    assert(typeof guildmember == typeof Discord.GuildMember)
-    assert(typeof time == typeof int)
+    assert(typeof guildmember == typeof Discord.GuildMember);
+    assert(typeof time == typeof int);
 
-    channel.setRateLimitPerUser(time)
-    debugchan.send("Member <@" + guildmember.id + "> started slow-mo mode on channel <#" + Discord.TextChannel.id + ">")
-    channel.send("Slow motion activated ! You may need help from <@&" + config.roles.Admin+ "> to change disable it !")
+    channel.setRateLimitPerUser(time);
+    debugchan.send("Member <@" + guildmember.id + "> started slow-mo mode on channel <#" + Discord.TextChannel.id + ">");
+    channel.send("Slow motion activated ! You may need help from <@&" + config.roles.Admin+ "> to change disable it !");
 }
 
 function is_admin(guildmember) {
