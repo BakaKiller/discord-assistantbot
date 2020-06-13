@@ -185,7 +185,7 @@ function tryvalidquestion(id, author) {
 
 function slow_mo(guildmember, time, channel) {
     assert(channel instanceof Discord.TextChannel);
-    assert(guildmember instanceof Discord.GuildMember);
+    assert(guildmember instanceof Discord.User);
     assert(time instanceof int);
 
     channel.setRateLimitPerUser(time);
