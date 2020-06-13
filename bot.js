@@ -189,7 +189,7 @@ function slow_mo(guildmember, time, channel) {
     assert(Number.isInteger(time));
 
     channel.setRateLimitPerUser(time);
-    debugchan.send("Member <@" + guildmember.id + "> started slow-mo mode on channel <#" + Discord.TextChannel.id + ">");
+    debugchan.send("Member <@" + guildmember.id + "> started slow-mo mode on channel <#" + channel.id + ">");
     channel.send("Slow motion activated ! You may need help from <@&" + config.roles.Admin+ "> to change disable it !");
 }
 
