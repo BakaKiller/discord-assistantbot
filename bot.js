@@ -8,6 +8,7 @@ const lang = new Lang();
 const mysql = require('mysql');
 const mysql_simplifier = require('./mysql_simplifier');
 const Log = require('./logs.js');
+const assert = require('assert').strict
 
 let debugchan;
 let askchan;
@@ -84,6 +85,9 @@ client.on('ready', () => {
                     break;
                 case "ask":
                     ask(messageparts, msg.author.tag);
+                    break;
+                case "slowmo":
+                    slow_mo(msg.author, 30, msg.channel)
                     break;
                 case "clean":
                     if (msg.member !== null && is_mod_or_admin(msg.member)) {
@@ -177,6 +181,16 @@ function tryvalidquestion(id, author) {
             validquestion(results, fields);
         }
     });
+}
+
+function slow_mo(guildmember, time, channel) {
+    assert(typeof channel == typeof Discord.TextChannel);
+    assert(typeof guildmember == typeof Discord.GuildMember)
+    assert(typeof time == typeof int)
+
+    channel.setRateLimitPerUser(time)
+    debugchan.send("Member <@" + guildmember.id + "> started slow-mo mode on channel <#" + Discord.TextChannel.id + ">")
+    channel.send("Slow motion activated ! You may need help from <@&" + config.roles.Admin+ "> to change disable it !")
 }
 
 function is_admin(guildmember) {
