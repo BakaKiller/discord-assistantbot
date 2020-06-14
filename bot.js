@@ -108,7 +108,9 @@ client.on('ready', () => {
         }
     })
 });
-
+/**
+ * @param {Discord.GuildMember} guildmember
+ */
 function sign(guildmember) {
     let guild = guildmember.guild;
     let user = guildmember.user;
@@ -122,7 +124,11 @@ function sign(guildmember) {
         logs.add('signed', user.tag, "");
     }
 }
-
+/**
+ * @param  {int} memberid
+ * @param  {Discord.GuildMember} banner
+ * @param  {string} reason=null
+ */
 function ban(memberid, banner, reason = null) {
     if (is_mod_or_admin(banner)) {
         let guildmember = banner.guild.members.get(memberid);
@@ -130,7 +136,12 @@ function ban(memberid, banner, reason = null) {
         logs.add('banned', banner.tag, guildmember.tag);
     }
 }
-
+/**
+ * @param  {Discord.Guild} guild
+ * @param  {Discord.GuildMember} warner
+ * @param  {int} memberid
+ * @param  {string} message
+ */
 function warn(guild, warner, memberid, message) {
     let role = guild.roles.get(config.roles.Warned);
     let member = guild.members.get(memberid);
@@ -140,11 +151,18 @@ function warn(guild, warner, memberid, message) {
         debugchan.send(member.user.tag + ' : ' + lang.getstring('alreadywarned'));
     }
 }
-
+/**
+ * @param  {Discord.TextChannel} chan
+ * @param  {int} nb
+ */
 function clean(chan, nb) {
     chan.fetchMessages({limit: nb}).then(messages => messages.forEach(msg => msg.delete()))
 }
-
+/**
+ * @param  {string} msg
+ * @param  {string} authortag
+ * @param  {int} userid
+ */
 function ask(msg, authortag, userid) {
     msg.splice(0, 1);
     msg = msg.join(' ');
@@ -152,25 +170,43 @@ function ask(msg, authortag, userid) {
     let values = [authortag, msg, 0];
     sql.insert_into('questions', fields, values, senddebug, insertquestionaction);
 }
-
+/**
+ * @param  {*} result
+ * @param  {*} fields
+ * @param  {*} values
+ */
 function insertquestionaction(result, fields, values) {
     logs.add('asked', values[0], 'questionid: ' + result.insertId);
     sendquestion(askadminchan, result.insertId, values[0], values[1]);
 }
-
+/**
+ * @param  {Discord.TextChannel} chan
+ * @param  {int} id
+ * @param  {string} authortag
+ * @param  {string} msg
+ */
 function sendquestion(chan, id, authortag, msg) {
     chan.send(id + ' - ' + authortag + ' : ' + msg);
 }
-
+/**
+ * @param  {string} err
+ */
 function senddebug(err) {
     console.log(err);
     debugchan.send(err.msg);
 }
-
+/**
+ * @param  {Array} results
+ * @param  {*} fields
+ */
 function validquestion(results, fields) {
     askchan.send(results[0].question);
 }
 
+/**
+ * @param {int} id
+ * @param {Discord.User} author 
+ */
 function tryvalidquestion(id, author) {
     sql.select_from('questions', ['question', 'validation'], {id: id}, senddebug, function(results, fields) {
         if (results[0].validation !== 0) {
@@ -183,24 +219,38 @@ function tryvalidquestion(id, author) {
     });
 }
 
-function slow_mo(guildmember, time, channel) {
-    assert(channel instanceof Discord.TextChannel);
-    assert(guildmember instanceof Discord.User);
-    assert(Number.isInteger(time));
-
+/**
+ * 
+ * @param {Discord.User} user 
+ * @param {int} time 
+ * @param {Discord.TextChannel} channel 
+ */
+function slow_mo(user, time, channel) {
     channel.setRateLimitPerUser(time);
-    debugchan.send("Member <@" + guildmember.id + "> started slow-mo mode on channel <#" + channel.id + ">");
+    debugchan.send("Member <@" + user.id + "> started slow-mo mode on channel <#" + channel.id + ">");
     channel.send("Slow motion activated ! You may need help from <@&" + config.roles.Admin+ "> to change disable it !");
 }
 
+/**
+ * @param {Discord.GuildMember} guildmember 
+ * @returns {boolean}
+ */
 function is_admin(guildmember) {
     return guildmember.roles.has(config.roles.Admin);
 }
 
+/**
+ * @param {Discord.GuildMember} guildmember 
+ * @returns {boolean}
+ */
 function is_mod(guildmember) {
     return guildmember.roles.has(config.roles.Modo);
 }
 
+/**
+ * @param {Discord.GuildMember} guildmember 
+ * @returns {boolean}
+ */
 function is_mod_or_admin(guildmember) {
     return (is_admin(guildmember) || is_mod(guildmember));
 }
