@@ -57,7 +57,15 @@ client.on('ready', () => {
             message = (msg.content.substr(prefix.length)).toLowerCase();
             messageparts = message.split(' ');
             switch (messageparts[0]) {
-                case "ping":
+                 case "clean":
+                    if (msg.member !== null && is_mod_or_admin(msg.member)) {
+                        clean(msg.channel, messageparts[1]);
+                    } else {
+                        msg.reply(lang.getstring('cantclean'));
+                        debugchan.send('<@&' + config.roles.Admin + '> ' + msg.author.tag + lang.getstring('triedtoclean') + ' <#' + msg.channel.id + '>');
+                    }
+                    break;
+               case "ping":
                     if (msg.member === null || is_admin(msg.member)) {
                         msg.reply('Pong !');
                     } else {
@@ -93,14 +101,7 @@ client.on('ready', () => {
 		    if (msg.member !== null && is_mod_or_admin(msg.member)) {
 			slow_mo(msg.author, 0, msg.channel);
 		    }
-                case "clean":
-                    if (msg.member !== null && is_mod_or_admin(msg.member)) {
-                        clean(msg.channel, messageparts[1]);
-                    } else {
-                        msg.reply(lang.getstring('cantclean'));
-                        debugchan.send('<@&' + config.roles.Admin + '> ' + msg.author.tag + lang.getstring('triedtoclean') + ' <#' + msg.channel.id + '>');
-                    }
-                    break;
+		    break;
                 case "validquestion":
                     if (msg.member !== null && is_admin(msg.member)) {
                         tryvalidquestion(messageparts[1], msg.author);
@@ -231,8 +232,10 @@ function tryvalidquestion(id, author) {
  */
 function slow_mo(user, time, channel) {
     channel.setRateLimitPerUser(time);
-    debugchan.send("Member <@" + user.id + "> started slow-mo mode on channel <#" + channel.id + ">");
-    channel.send("Slow motion activated ! You may need help from <@&" + config.roles.Admin+ "> to change disable it !");
+    if (time !== 0) {
+	debugchan.send("Member <@" + user.id + "> started slow-mo mode on channel <#" + channel.id + ">");
+	channel.send("Slow motion activated ! You may need help from <@&" + config.roles.Admin+ "> to change disable it !");
+    }
 }
 
 /**
