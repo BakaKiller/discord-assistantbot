@@ -87,8 +87,12 @@ client.on('ready', () => {
                     ask(messageparts, msg.author.tag);
                     break;
                 case "slowmo":
-                    slow_mo(msg.author, 30, msg.channel)
+                    slow_mo(msg.author, 30, msg.channel);
                     break;
+		case "unslowmo":
+		    if (msg.member !== null && is_mod_or_admin(msg.member)) {
+			slow_mo(msg.author, 0, msg.channel);
+		    }
                 case "clean":
                     if (msg.member !== null && is_mod_or_admin(msg.member)) {
                         clean(msg.channel, messageparts[1]);
