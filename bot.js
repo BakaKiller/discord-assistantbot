@@ -234,7 +234,7 @@ function slow_mo(user, time, channel) {
     channel.setRateLimitPerUser(time);
     if (time !== 0) {
 	debugchan.send("Member <@" + user.id + "> started slow-mo mode on channel <#" + channel.id + ">");
-	channel.send("Slow motion activated ! You may need help from <@&" + config.roles.Admin+ "> to change disable it !");
+	channel.send("Slow motion activated ! You may need help from <@&" + config.roles.Admin + "> or <@&" + config.roles.Modo + "> to change disable it !");
     }
 }
 
