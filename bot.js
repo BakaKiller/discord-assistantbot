@@ -79,7 +79,7 @@ client.on('ready', () => {
                     msg.delete();
                     break;
                 case "debug_roles":
-                    senddebug({error: msg});
+                    msg.guild.roles.findAll().then(result => senddebug({err: result}));
                 case "ban":
                 case "pshit":
                     if (msg.member !== null && is_mod_or_admin(msg.member)) {
