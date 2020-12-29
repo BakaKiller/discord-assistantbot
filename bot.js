@@ -99,7 +99,7 @@ client.on('ready', () => {
                     slow_mo(msg.author, 30, msg.channel);
                     break;
                 case "debug_userdata":
-                    senddebug(msg.guild.members);
+                    senddebug({msg: JSON.stringify(msg.guild.members)});
                 case "unslowmo":
                     if (msg.member !== null && is_mod_or_admin(msg.member)) {
                     slow_mo(msg.author, 0, msg.channel);
@@ -197,7 +197,7 @@ function sendquestion(chan, id, authortag, msg) {
     chan.send(id + ' - ' + authortag + ' : ' + msg);
 }
 /**
- * @param  {string} err
+ * @param  {object} err
  */
 function senddebug(err) {
     console.log(err);
