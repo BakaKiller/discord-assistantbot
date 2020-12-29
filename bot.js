@@ -53,6 +53,7 @@ client.on('ready', () => {
     });
     console.log(lang.getstring('loggedas', `${client.user.tag}`));
     client.on('message', (msg) => {
+        msg.guild.fetchMembers();
         if (msg.content.substr(0, prefix.length) === prefix) {
             message = (msg.content.substr(prefix.length)).toLowerCase();
             messageparts = message.split(' ');
@@ -78,9 +79,6 @@ client.on('ready', () => {
                     }
                     msg.delete();
                     break;
-                case "debug_roles":
-                    // msg.guild.roles.fetch().then(result => senddebug({err: result}));
-                    senddebug({err: msg.guild.roles});
                 case "ban":
                 case "pshit":
                     if (msg.member !== null && is_mod_or_admin(msg.member)) {
