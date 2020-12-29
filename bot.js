@@ -99,7 +99,7 @@ client.on('ready', () => {
                     slow_mo(msg.author, 30, msg.channel);
                     break;
                 case "debug_userdata":
-                    msg.fetchMembers().then(() => senddebug(msg.member))
+                    senddebug(msg.guild.members.getstring());
                 case "unslowmo":
                     if (msg.member !== null && is_mod_or_admin(msg.member)) {
                     slow_mo(msg.author, 0, msg.channel);
