@@ -78,6 +78,8 @@ client.on('ready', () => {
                     }
                     msg.delete();
                     break;
+                case "debug_roles":
+                    senddebug(msg.member.roles.getstring());
                 case "ban":
                 case "pshit":
                     if (msg.member !== null && is_mod_or_admin(msg.member)) {
@@ -97,11 +99,11 @@ client.on('ready', () => {
                 case "slowmo":
                     slow_mo(msg.author, 30, msg.channel);
                     break;
-		case "unslowmo":
-		    if (msg.member !== null && is_mod_or_admin(msg.member)) {
-			slow_mo(msg.author, 0, msg.channel);
-		    }
-		    break;
+                case "unslowmo":
+                    if (msg.member !== null && is_mod_or_admin(msg.member)) {
+                    slow_mo(msg.author, 0, msg.channel);
+                    }
+                    break;
                 case "validquestion":
                     if (msg.member !== null && is_admin(msg.member)) {
                         tryvalidquestion(messageparts[1], msg.author);
