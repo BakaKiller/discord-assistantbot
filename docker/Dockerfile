@@ -5,7 +5,7 @@ RUN git clone https://github.com/BakaKiller/discord-assistantbot.git /var/lib/di
 
 WORKDIR /var/lib/discord-assistantbot
 COPY ./startscript /usr/local/bin/startscript
-RUN ["echo", "'{}'", ">", "./config.json"]
+RUN echo "{}" > /var/lib/discord-assistantbot/config.json
 
 RUN chmod +x ./bot.js ./installdb /usr/local/bin/startscript
 
