@@ -1,22 +1,22 @@
 #!/bin/bash
 
-if [ -z "$ENV_TIMEZONE"]; then
+if [ -z "$ENV_TIMEZONE" ]; then
     export ENV_TIMEZONE="France/Paris"
 fi
 
-if [ -z "$ENV_DBHOST"]; then
+if [ -z "$ENV_DBHOST" ]; then
     export ENV_DBHOST="db"
 fi
 
-if [ -z "$ENV_DBUSER"]; then
+if [ -z "$ENV_DBUSER" ]; then
     export ENV_DBUSER="root"
 fi
 
-if [ -z "$ENV_DBPWD"]; then
+if [ -z "$ENV_DBPWD" ]; then
     export ENV_DBPWD="root"
 fi
 
-if [ -z "$ENV_DBNAME"]; then
+if [ -z "$ENV_DBNAME" ]; then
     export ENV_DBNAME="discord-assistantbot"
 fi
 
