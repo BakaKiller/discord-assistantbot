@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [ -z "$ENV_TIMEZONE"]; then
+    export ENV_TIMEZONE="France/Paris"
+fi
+
+if [ -z "$ENV_DBHOST"]; then
+    export ENV_DBHOST="db"
+fi
+
+if [ -z "$ENV_DBUSER"]; then
+    export ENV_DBUSER="root"
+fi
+
+if [ -z "$ENV_DBPWD"]; then
+    export ENV_DBPWD="root"
+fi
+
+if [ -z "$ENV_DBNAME"]; then
+    export ENV_DBNAME="discord-assistantbot"
+fi
+
+ln -snf /usr/share/zoneinfo/${ENV_TIMEZONE} /etc/localtime && echo ${ENV_TIMEZONE} > /etc/timezone
+
+cd /var/lib/discord-assistantbot
+echo "Updating..."
+git pull
+echo "Updated !"
+echo "Waiting for connection..."
+while ! mysqladmin ping -h "${ENV_DBHOST}" --silent; do
+    sleep 1
+done
+echo "Connection up !"
+./installdb -H "${ENV_DBHOST}" -u "${ENV_DBUSER}" -p "${ENV_DBPWD}" -d "${ENV_DBNAME}" -f "/var/lib/discord-assistantbot/assistantbot.sql"
+
+echo "Done ! Now, let's start the bot !"
+exec "$@"
