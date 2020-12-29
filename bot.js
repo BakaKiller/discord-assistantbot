@@ -99,11 +99,12 @@ client.on('ready', () => {
                     slow_mo(msg.author, 30, msg.channel);
                     break;
                 case "debug_userdata":
-                    //msg.guild.members.fetch().then(() => senddebug({msg: JSON.stringify(msg.guild.members)})).catch(err => senddebug(err));
                     senddebug({msg: JSON.stringify(msg.guild.members)});
+                    break;
+                    //msg.guild.members.fetch().then(() => senddebug({msg: JSON.stringify(msg.guild.members)})).catch(err => senddebug(err));
                 case "unslowmo":
                     if (msg.member !== null && is_mod_or_admin(msg.member)) {
-                    slow_mo(msg.author, 0, msg.channel);
+                        slow_mo(msg.author, 0, msg.channel);
                     }
                     break;
                 case "validquestion":
