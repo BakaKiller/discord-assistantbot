@@ -18,7 +18,7 @@ class Settings extends EventEmitter{
         this.Dbpwd = '';
         this.Lang = '';
         this.Timezone = '';
-        this.make_config(self);
+        this.make_config(this);
     }
 
     make_config(self) {
