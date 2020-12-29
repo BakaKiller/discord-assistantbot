@@ -18,25 +18,28 @@ class Settings extends EventEmitter{
         this.Dbpwd = '';
         this.Lang = '';
         this.Timezone = '';
-        let self = this;
+        this.make_config(self);
+    }
+
+    make_config(self) {
         jsonfile.readFile('config.json', function (err, obj) {
             if (err) {
                 console.log(err.message);
             } else {
-                self.Roles = obj.roles;
-                self.Prefix = obj.prefix;
-                self.Token = obj.token;
-                self.Helpintro = obj.helpintro;
-                self.Helpoutro = obj.helpoutro;
-                self.Debugchan = obj.debugchan;
-                self.Askchan = obj.askchan;
-                self.Askadminchan = obj.askadminchan;
-                self.Lang = obj.lang;
-                self.Dbhost = obj.dbhost;
-                self.Dbname = obj.dbname;
-                self.Dbuser = obj.dbuser;
-                self.Dbpwd = obj.dbpwd;
-                self.Timezone = obj.timezone;
+                self.Roles = process.env.ENV_ROLES || obj.roles;
+                self.Prefix = process.env.ENV_PREFIX || obj.prefix;
+                self.Token = process.env.ENV_TOKEN || obj.token;
+                self.Helpintro = process.env.ENV_HELPINTRO || obj.helpintro;
+                self.Helpoutro = process.env.ENV_HELPOUTRO || obj.helpoutro;
+                self.Debugchan = process.env.ENV_DEBUGCHAN || obj.debugchan;
+                self.Askchan = process.env.ENV_ASKCHAN || obj.askchan;
+                self.Askadminchan = process.env.ENV_ASKADMINCHAN || obj.askadminchan;
+                self.Lang = process.env.ENV_LANG || obj.lang;
+                self.Dbhost = process.env.ENV_DBHOST || obj.dbhost;
+                self.Dbname = process.env.ENV_DBNAME || obj.dbname;
+                self.Dbuser = process.env.ENV_DBUSER || obj.dbuser;
+                self.Dbpwd = process.env.ENV_DBPWD || obj.dbpwd;
+                self.Timezone = process.env.ENV_TIMEZONE || obj.timezone;
                 self.emit('ready');
             }
         });
