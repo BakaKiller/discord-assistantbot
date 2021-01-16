@@ -53,7 +53,6 @@ client.on('ready', () => {
     });
     console.log(lang.getstring('loggedas', `${client.user.tag}`));
     client.on('message', (msg) => {
-        msg.guild.fetchMembers();
         if (msg.content.substr(0, prefix.length) === prefix) {
             message = (msg.content.substr(prefix.length)).toLowerCase();
             messageparts = message.split(' ');
