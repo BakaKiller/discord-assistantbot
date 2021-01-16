@@ -131,7 +131,7 @@ function sign(guildmember) {
     }
     let memberrole = guild.roles.cache.get(config.roles.Member);
     if (!guildmember.roles.cache.has(memberrole)) {
-        guildmember.roles.cache.add(memberrole);
+        guildmember.roles.add(memberrole);
         logs.add('signed', user.tag, "");
     }
 }
@@ -157,7 +157,7 @@ function warn(guild, warner, memberid, message) {
     let role = guild.roles.cache.get(config.roles.Warned);
     let member = guild.members.cache.get(memberid);
     if (!member.roles.cache.has(role.id)) {
-        member.roles.cache.add(role);
+        member.roles.add(role);
     } else {
         debugchan.send(member.user.tag + ' : ' + lang.getstring('alreadywarned'));
     }
