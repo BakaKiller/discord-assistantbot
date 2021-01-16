@@ -19,7 +19,7 @@
   "homepage": "https://github.com/BakaKiller/discord-assistantbot#readme",
   "dependencies": {
     "assert": "*",
-    "discord.js": "^11.6.4",
+    "discord.js": "^12",
     "jsonfile": "^4.0.0",
     "mysql": "2.17.1"
   }
