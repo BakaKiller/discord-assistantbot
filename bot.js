@@ -76,6 +76,8 @@ client.on('ready', () => {
                 case "sign":
                     if (msg.member !== null) {
                         sign(msg.member);
+                    } else {
+                        senddebug({msg:"No guild"});
                     }
                     msg.delete();
                     break;
