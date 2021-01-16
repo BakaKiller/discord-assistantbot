@@ -32,9 +32,9 @@ lang.on('ready', () => {
 });
 
 client.on('ready', () => {
-    debugchan = client.channels.get(config.debugchan);
-    askchan = client.channels.get(config.askchan);
-    askadminchan = client.channels.get(config.askadminchan);
+    debugchan = client.channels.cache.get(config.debugchan);
+    askchan = client.channels.cache.get(config.askchan);
+    askadminchan = client.channels.cache.get(config.askadminchan);
 
     con = mysql.createConnection({
         host: config.dbhost,
@@ -130,7 +130,7 @@ function sign(guildmember) {
         debugchan.send('User is not a User (function \'sign\')');
         return;
     }
-    let memberrole = guild.roles.get(config.roles.Member);
+    let memberrole = guild.roles.cache.get(config.roles.Member);
     if (!guildmember.roles.has(memberrole)) {
         guildmember.addRole(memberrole);
         logs.add('signed', user.tag, "");
@@ -143,7 +143,7 @@ function sign(guildmember) {
  */
 function ban(memberid, banner, reason = null) {
     if (is_mod_or_admin(banner)) {
-        let guildmember = banner.guild.members.get(memberid);
+        let guildmember = banner.guild.members.cache.get(memberid);
         guildmember.ban(reason);
         logs.add('banned', banner.tag, guildmember.tag);
     }
@@ -155,8 +155,8 @@ function ban(memberid, banner, reason = null) {
  * @param  {string} message
  */
 function warn(guild, warner, memberid, message) {
-    let role = guild.roles.get(config.roles.Warned);
-    let member = guild.members.get(memberid);
+    let role = guild.roles.cache.get(config.roles.Warned);
+    let member = guild.members.cache.get(memberid);
     if (!member.roles.has(role.id)) {
         member.addRole(role);
     } else {
