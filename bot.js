@@ -9,7 +9,7 @@ const client = new CommandoClient({
 });
 
 client.setProvider(
-    sqlite.open( {filename: path.join(__dirname, 'settings.sqlite3')}).then(db => new SQLiteProvider(db))
+    sqlite.open( {filename: path.join(__dirname, 'settings.sqlite3'), driver: "sqlite3"}).then(db => new SQLiteProvider(db))
 ).catch(console.error);
 
 client.registry
