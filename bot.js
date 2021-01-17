@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 
-const Discord = require('discord.js-commando');
+const { CommandoClient, SQLiteProvider } = require('discord.js-commando');
 const path = require('path');
-const client = new Discord.Client({
+const client = new CommandoClient({
     owner: '139512885679357953',
     commandPrefix: '?'
 });
+
+client.setProvider(
+    sqlite.open(path.join(__dirname, 'settings.sqlite3')).then(db => new SQLiteProvider(db))
+).catch(console.error);
 
 client.registry
     // Registers your custom command groups
@@ -20,36 +24,7 @@ client.registry
     // Registers all of your commands in the ./commands/ directory
     .registerCommandsIn(path.join(__dirname, 'cmds'));
 
-const config = require('./config.js');
-const Lang = require('./lang.js');
-const lang = new Lang();
-const mysql = require('mysql');
-const mysql_simplifier = require('./mysql_simplifier');
-const Log = require('./logs.js');
-const assert = require('assert').strict
-
-let debugchan;
-let askchan;
-let askadminchan;
-let prefix;
-let message;
-let messageparts;
-let con;
-let sql;
-let logs;
-let text;
-
-config.on('ready', () => {
-    process.env.TZ=config.timezone;
-    prefix = config.prefix;
-    lang.init(config.lang);
-});
-
-lang.on('ready', () => {
-    client.login(config.token);
-});
-
-client.on('ready', () => {
+client.once('ready', () => {
     debugchan = client.channels.cache.get(config.debugchan);
     askchan = client.channels.cache.get(config.askchan);
     askadminchan = client.channels.cache.get(config.askadminchan);
