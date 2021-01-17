@@ -21,6 +21,7 @@
     "assert": "*",
     "discord.js": "^12",
     "discord.js-commando": "github:discordjs/Commando",
+    "emoji-regex": "^9.2.0",
     "jsonfile": "^4.0.0",
     "mysql": "2.17.1"
   }
