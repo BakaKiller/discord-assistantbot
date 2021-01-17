@@ -20,6 +20,7 @@
   "dependencies": {
     "assert": "*",
     "discord.js": "^12",
+    "discord.js-commando": "github:discordjs/Commando",
     "jsonfile": "^4.0.0",
     "mysql": "2.17.1"
   }

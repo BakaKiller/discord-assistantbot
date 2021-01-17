@@ -1,7 +1,25 @@
 #!/usr/bin/env node
 
-const Discord = require('discord.js');
-const client = new Discord.Client();
+const Discord = require('discord.js-commando');
+const path = require('path');
+const client = new Discord.Client({
+    owner: '139512885679357953',
+    commandPrefix: '?'
+});
+
+client.registry
+    // Registers your custom command groups
+    .registerGroups([
+        ['admin', 'Administration commands'],
+        ['member', 'Members commands']
+    ])
+
+    // Registers all built-in groups, commands, and argument types
+    .registerDefaults()
+
+    // Registers all of your commands in the ./commands/ directory
+    .registerCommandsIn(path.join(__dirname, 'cmds'));
+
 const config = require('./config.js');
 const Lang = require('./lang.js');
 const lang = new Lang();
@@ -35,6 +53,7 @@ client.on('ready', () => {
     debugchan = client.channels.cache.get(config.debugchan);
     askchan = client.channels.cache.get(config.askchan);
     askadminchan = client.channels.cache.get(config.askadminchan);
+    client.on('error', console.error);
 
     con = mysql.createConnection({
         host: config.dbhost,
