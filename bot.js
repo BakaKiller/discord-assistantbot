@@ -2,6 +2,7 @@
 
 const { CommandoClient, SQLiteProvider } = require('discord.js-commando');
 const path = require('path');
+const sqlite = require('sqlite');
 const client = new CommandoClient({
     owner: '139512885679357953',
     commandPrefix: '?'
