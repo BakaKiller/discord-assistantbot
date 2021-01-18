@@ -1,14 +1,19 @@
 #!/usr/bin/env node
 
+console.log('Requiring modules...');
 const { CommandoClient, SQLiteProvider } = require('discord.js-commando');
 const path = require('path');
 const sqlite3 = require('sqlite3');
 const sqlite = require('sqlite');
+const config = require('config.json');
+
+console.log('Opening client...');
 const client = new CommandoClient({
     owner: '139512885679357953',
     commandPrefix: '?'
 });
 
+console.log('Setting provider');
 client.setProvider(
     sqlite.open({
         filename: path.join(__dirname, 'settings.sqlite3'),
@@ -16,6 +21,7 @@ client.setProvider(
     }).then(db => new SQLiteProvider(db))
 ).catch(console.error);
 
+console.log('Creating registry...');
 client.registry
     // Registers your custom command groups
     .registerGroups([
@@ -29,28 +35,14 @@ client.registry
     // Registers all of your commands in the ./commands/ directory
     .registerCommandsIn(path.join(__dirname, 'cmds'));
 
-client.once('ready', () => {
+client.login(config.token);
+
+client.on('ready', () => {
     debugchan = client.channels.cache.get(config.debugchan);
     askchan = client.channels.cache.get(config.askchan);
     askadminchan = client.channels.cache.get(config.askadminchan);
     client.on('error', console.error);
 
-    con = mysql.createConnection({
-        host: config.dbhost,
-        user: config.dbuser,
-        password: config.dbpwd,
-        database: config.dbname
-    });
-    con.connect(function (err) {
-        if (err) {
-            debugchan.send(err.message);
-            throw err;
-        } else {
-            sql = new mysql_simplifier(con);
-            logs = new Log(sql);
-        }
-    });
-    console.log(lang.getstring('loggedas', `${client.user.tag}`));
     client.on('message', (msg) => {
         if (msg.content.substr(0, prefix.length) === prefix) {
             message = (msg.content.substr(prefix.length)).toLowerCase();
