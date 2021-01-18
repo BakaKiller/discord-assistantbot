@@ -47,7 +47,7 @@ module.exports = class InitrolesCommand extends Command {
                 delete roles[role];
             }
         }
-        let guild = guildmember.guild;
+        let guild = message.guild;
         if (guild.settings.get('roles') === null) {
             let rolesset = {};
             guild.settings.set('roles', rolesset);
