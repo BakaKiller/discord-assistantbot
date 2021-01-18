@@ -5,7 +5,7 @@ const { CommandoClient, SQLiteProvider } = require('discord.js-commando');
 const path = require('path');
 const sqlite3 = require('sqlite3');
 const sqlite = require('sqlite');
-const config = require('config.json');
+const config = require('./config.json');
 
 console.log('Opening client...');
 const client = new CommandoClient({
