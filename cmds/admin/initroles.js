@@ -37,10 +37,10 @@ module.exports = class InitrolesCommand extends Command {
 
     run(message, adminrole, memberrole, warnedrole, modorole) {
         let roles = {
-            Admin: adminrole,
-            Member: memberrole,
-            Warned: warnedrole,
-            Modo: modorole
+            "Admin": adminrole,
+            "Member": memberrole,
+            "Warned": warnedrole,
+            "Modo": modorole
         };
         for (let role in roles) {
             if (roles[role] === null || roles[role] === '' || roles[role] === '0') {
@@ -49,11 +49,12 @@ module.exports = class InitrolesCommand extends Command {
         }
         let guild = message.guild;
         if (guild.settings.get('roles') === null) {
-            let rolesset = {Admin: ""};
+            let rolesset = {"Admin": ""};
             guild.settings.set('roles', rolesset);
         }
         let finalroles = guild.settings.get('roles');
         let rolelist = '';
+        console.log('ok');
         for (let role in roles) {
             finalroles[role] = roles[role];
             if (rolelist !== '') {
