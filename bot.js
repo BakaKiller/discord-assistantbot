@@ -43,7 +43,7 @@ client.on('ready', () => {
     askadminchan = client.channels.cache.get(config.askadminchan);
     client.on('error', console.error);
 
-    client.on('message', (msg) => {
+    /*client.on('message', (msg) => {
         if (msg.content.substr(0, prefix.length) === prefix) {
             message = (msg.content.substr(prefix.length)).toLowerCase();
             messageparts = message.split(' ');
@@ -108,7 +108,7 @@ client.on('ready', () => {
                     }
             }
         }
-    })
+    })*/
 });
 /**
  * @param {Discord.GuildMember} guildmember
