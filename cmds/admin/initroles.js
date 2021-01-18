@@ -49,7 +49,7 @@ module.exports = class InitrolesCommand extends Command {
         }
         let guild = message.guild;
         if (guild.settings.get('roles') === null) {
-            let rolesset = {};
+            let rolesset = {Admin: ""};
             guild.settings.set('roles', rolesset);
         }
         let finalroles = guild.settings.get('roles');
