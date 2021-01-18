@@ -54,7 +54,6 @@ module.exports = class InitrolesCommand extends Command {
         }
         let finalroles = guild.settings.get('roles');
         let rolelist = '';
-        console.log('ok');
         for (let role in roles) {
             finalroles[role] = roles[role];
             if (rolelist !== '') {
@@ -62,8 +61,9 @@ module.exports = class InitrolesCommand extends Command {
             }
             rolelist += role;
         }
+        console.log('ok');
         guild.settings.set('roles', finalroles);
-
+        console.log('ok2');
         message.reply('Updated roles ' + rolelist);
     }
 }
