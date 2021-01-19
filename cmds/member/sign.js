@@ -13,16 +13,15 @@ module.exports = class SignCommand extends Command {
     }
 
     run(message) {
-        let guild = guildmember.guild;
-        let user = guildmember.user;
+        let guild = message.guild;
+        let user = message.guildmember.user;
         if (!user instanceof Discord.User) {
-            debugchan.send('User is not a User (function \'sign\')');
+            guild.channels.cache.get(guild.settings.get('chans').debugchan).send('User is not a User (function \'sign\')');
             return;
         }
-        let memberrole = guild.roles.cache.get(config.roles.Member);
-        if (!guildmember.roles.cache.has(memberrole)) {
-            guildmember.roles.add(memberrole);
-            logs.add('signed', user.tag, "");
+        let memberrole = guild.roles.cache.get(guild.settings.get('roles').Member);
+        if (!message.guildmember.roles.cache.has(memberrole)) {
+            message.guildmember.roles.add(memberrole);
         }
         message.delete()
     }
