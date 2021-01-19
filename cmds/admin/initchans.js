@@ -30,7 +30,7 @@ module.exports = class InitchansCommand extends Command {
         })
     }
 
-    run(message, debugchan, askchan, askadminchan) {
+    run(message, {debugchan, askchan, askadminchan}) {
         let chans = {
             "debug": debugchan,
             "ask": askchan,
