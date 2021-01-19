@@ -3,32 +3,32 @@ const { Command } = require('discord.js-commando');
 module.exports = class InitrolesCommand extends Command {
     constructor(client) {
         super(client, {
-            name: 'init',
+            name: 'initroles',
             group: 'admin',
-            memberName: 'init',
-            description: 'Accept the rules and be part of the community !',
+            memberName: 'initroles',
+            description: 'Set which roles is admin, member, warned or moderator !',
             guildOnly: true,
             clientPermissions: ['ADMINISTRATOR'],
             userPermissions: ['ADMINISTRATOR'],
             args: [
                 {
                     key: 'adminrole',
-                    prompt: 'Enter the admin role id (or 0)',
+                    prompt: 'Enter the ***ADMIN*** role id (or 0)',
                     type: 'string'
                 },
                 {
                     key: 'memberrole',
-                    prompt: 'Enter the member role id (or 0)',
+                    prompt: 'Enter the ***MEMBER*** role id (or 0)',
                     type: 'string'
                 },
                 {
                     key: 'warnedrole',
-                    prompt: 'Enter the warned role id (or 0)',
+                    prompt: 'Enter the ***WARNED*** role id (or 0)',
                     type: 'string'
                 },
                 {
                     key: 'modorole',
-                    prompt: 'Enter the modo role id (or 0)',
+                    prompt: 'Enter the ***MODERATOR*** role id (or 0)',
                     type: 'string'
                 },
             ]
@@ -49,13 +49,11 @@ module.exports = class InitrolesCommand extends Command {
         }
         let guild = message.guild;
         if (guild.settings.get('roles') === null) {
-            let rolesset = {"Admin": ""};
-            guild.settings.set('roles', rolesset);
+            guild.settings.set('roles', {});
         }
-        let finalroles = guild.settings.get('roles');
+        let finalroles = {...guild.settings.get('roles'), ...roles};
         let rolelist = '';
         for (let role in roles) {
-            finalroles[role] = roles[role];
             if (rolelist !== '') {
                 rolelist += ', ';
             }
