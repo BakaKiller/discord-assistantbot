@@ -53,9 +53,7 @@ module.exports = class InitchansCommand extends Command {
             }
             chanlist += chan;
         }
-        console.log('ok');
         guild.settings.set('chans', finalchans);
-        console.log('ok2');
         message.reply('Updated chans ' + chanlist);
     }
 }

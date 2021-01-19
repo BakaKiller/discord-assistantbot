@@ -36,7 +36,6 @@ module.exports = class InitrolesCommand extends Command {
     }
 
     run(message, {adminrole, memberrole, warnedrole, modorole}) {
-        console.log(adminrole + memberrole + warnedrole + modorole);
         let roles = {
             "Admin": adminrole,
             "Member": memberrole,
@@ -60,9 +59,7 @@ module.exports = class InitrolesCommand extends Command {
             }
             rolelist += role;
         }
-        console.log('ok');
         guild.settings.set('roles', finalroles);
-        console.log('ok2');
         message.reply('Updated roles ' + rolelist);
     }
 }
