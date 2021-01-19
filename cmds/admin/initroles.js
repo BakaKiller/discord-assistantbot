@@ -36,6 +36,7 @@ module.exports = class InitrolesCommand extends Command {
     }
 
     run(message, adminrole, memberrole, warnedrole, modorole) {
+        console.log(adminrole + memberrole + warnedrole + modorole);
         let roles = {
             "Admin": adminrole,
             "Member": memberrole,

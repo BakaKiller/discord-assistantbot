@@ -38,11 +38,8 @@ client.registry
 client.login(config.token);
 
 client.on('ready', () => {
-    debugchan = client.channels.cache.get(config.debugchan);
-    askchan = client.channels.cache.get(config.askchan);
-    askadminchan = client.channels.cache.get(config.askadminchan);
+    console.log("Logged as " + client.user.tag);
     client.on('error', console.error);
-
     /*client.on('message', (msg) => {
         if (msg.content.substr(0, prefix.length) === prefix) {
             message = (msg.content.substr(prefix.length)).toLowerCase();
