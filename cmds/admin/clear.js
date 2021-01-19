@@ -14,7 +14,7 @@ module.exports = class ClearCommand extends Command {
                 {
                     key: 'nb',
                     prompt: 'How many messages should be erased ?',
-                    type: 'int'
+                    type: 'integer'
                 }
             ]
         })
