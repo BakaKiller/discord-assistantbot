@@ -21,7 +21,7 @@ module.exports = class ClearCommand extends Command {
     }
 
     run(message, {nb}) {
-        chan = message.channel;
+        let chan = message.channel;
         chan.fetchMessages({limit: nb}).then(messages => messages.forEach(msg => msg.delete()))
     }
 }
