@@ -15,8 +15,8 @@ module.exports = class SignCommand extends Command {
     run(message) {
         let guild = message.guild;
         let memberrole = guild.roles.cache.get(guild.settings.get('roles').Member);
-        if (!message.guildmember.roles.cache.has(memberrole)) {
-            message.guildmember.roles.add(memberrole);
+        if (!message.member.roles.cache.has(memberrole)) {
+            message.member.roles.add(memberrole);
         }
         message.delete()
     }
