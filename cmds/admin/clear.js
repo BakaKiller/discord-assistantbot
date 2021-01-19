@@ -22,7 +22,7 @@ module.exports = class ClearCommand extends Command {
 
     run(message, {nb}) {
         let chan = message.channel;
-        if (nb = 0) {
+        if (nb > 1000) {
             chan.messages.fetch().then(messages => messages.forEach(msg => msg.delete()))
         } else {
             chan.messages.fetch({limit: nb}).then(messages => messages.forEach(msg => msg.delete()))
