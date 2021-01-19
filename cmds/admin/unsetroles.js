@@ -14,7 +14,7 @@ module.exports = class UnsetrolesCommand extends Command {
     }
 
     run(message) {
-        guild.settings.set('roles', {});
+        message.guild.settings.set('roles', {});
         message.reply('Roles are unset, please send `' + message.guild.settings.get('prefix') + 'initroles` !');
     }
 }
