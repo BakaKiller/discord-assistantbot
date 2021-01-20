@@ -17,7 +17,7 @@ module.exports = class SlowmoCommand extends Command {
         let chans = message.guild.settings.get('chans');
         let roles = message.guild.settings.get('roles');
         message.guild.channels.cache.get(chans.debug).send(
-            "Member <@" + message.user.id + "> started slow-mo mode on channel <#" + message.channel.id + ">"
+            "Member <@" + message.author.id + "> started slow-mo mode on channel <#" + message.channel.id + ">"
         );
 	    message.channel.send("Slow motion activated ! You may need help from <@&" + roles.Admin + "> or <@&" + roles.Modo + "> to disable it !");
     }
