@@ -14,8 +14,8 @@ module.exports = class SlowmoCommand extends Command {
 
     run(message) {
         message.channel.setRateLimitPerUser(30);
-        chans = message.guild.settings.get('chans');
-        roles = message.guild.settings.get('roles');
+        let chans = message.guild.settings.get('chans');
+        let roles = message.guild.settings.get('roles');
         message.guild.channel.cache.get(chans.debug).send(
             "Member <@" + message.user.id + "> started slow-mo mode on channel <#" + message.channel.id + ">"
         );
