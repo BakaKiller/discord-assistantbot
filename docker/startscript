@@ -20,18 +20,25 @@ if [ -z "$ENV_DBNAME" ]; then
     export ENV_DBNAME="discord-assistantbot"
 fi
 
+if [ -z "$ENV_BRANCH" ]; then
+    export ENV_BRANCH="master"
+fi
+
 ln -snf /usr/share/zoneinfo/${ENV_TIMEZONE} /etc/localtime && echo ${ENV_TIMEZONE} > /etc/timezone
 
 cd /var/lib/discord-assistantbot
+
+if [ ! -d ".git" ]; then
+    git clone https://github.com/BakaKiller/discord-assistantbot.git --single-branch --branch ${ENV_BRANCH}
+fi
+
 echo "Updating..."
 git pull
 echo "Updated !"
-echo "Waiting for connection..."
-while ! mysqladmin ping -h "${ENV_DBHOST}" --silent; do
-    sleep 1
-done
-echo "Connection up !"
-./installdb -H "${ENV_DBHOST}" -u "${ENV_DBUSER}" -p "${ENV_DBPWD}" -d "${ENV_DBNAME}" -f "/var/lib/discord-assistantbot/assistantbot.sql"
+
+echo "NPM Installing..."
+npm install
+echo "Installed !"
 
 echo "Done ! Now, let's start the bot !"
 exec "$@"
