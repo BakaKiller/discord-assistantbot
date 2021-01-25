@@ -9,24 +9,21 @@ module.exports = class BanCommand extends Command {
             description: 'Ban a user',
             guildOnly: true,
             clientPermissions: ['ADMINISTRATOR'],
-            userPermissions: ['BAN_MEMBERS'],
-            args: [
-                {
-                    key: 'user',
-                    prompt: 'Who should be ban ?',
-                    type: 'member'
-                },
-                {
-                    key: 'reason',
-                    prompt: 'Why is this person banned ?',
-                    type: 'member',
-                    default: '(who cares I am the boss here lmao)'
-                },
-            ]
+            userPermissions: ['BAN_MEMBERS']
         })
     }
 
-    run(message, {user, reason}) {
-        user.ban(reason);
+    run(message) {
+        const target = message.mentions.users.first();
+        if (!target) {
+            message.reply("you need to have at least one users mentioned");
+            return;
+        
+        }
+        const {guild, content} = message; 
+        const member = guild.members.cache.get(target.id);
+        if (member.bannable) {
+            member.ban({reason: content});
+        }
     }
 }
