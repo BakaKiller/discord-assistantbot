@@ -24,9 +24,9 @@ module.exports = class BanCommand extends Command {
         const member = guild.members.cache.get(target.id);
         if (member.bannable) {
             member.ban({reason: content});
-            message.react(":white_check_mark:")
+            message.react("white_check_mark")
         } else {
-            message.react(':x:');
+            message.react('x');
         }
     }
 }
