@@ -45,56 +45,8 @@ client.on('ready', () => {
             message = (msg.content.substr(prefix.length)).toLowerCase();
             messageparts = message.split(' ');
             switch (messageparts[0]) {
-                 case "clean":
-                    if (msg.member !== null && is_mod_or_admin(msg.member)) {
-                        clean(msg.channel, messageparts[1]);
-                    } else {
-                        msg.reply(lang.getstring('cantclean'));
-                        debugchan.send('<@&' + config.roles.Admin + '> ' + msg.author.tag + lang.getstring('triedtoclean') + ' <#' + msg.channel.id + '>');
-                    }
-                    break;
-               case "ping":
-                    if (msg.member === null || is_admin(msg.member)) {
-                        msg.reply('Pong !');
-                    } else {
-                        debugchan.send(msg.author.tag);
-                    }
-                    break;
-                case "sign":
-                    if (msg.member !== null) {
-                        sign(msg.member);
-                    } else {
-                        senddebug({msg:"No guild"});
-                    }
-                    msg.delete();
-                    break;
-                case "ban":
-                case "pshit":
-                    if (msg.member !== null && is_mod_or_admin(msg.member)) {
-                        ban(messageparts[1].match(/\d*\d/)[0], msg.member, message.substr(0, (messageparts[0].length + messageparts[1].length)));
-                    } else {
-                        msg.reply(lang.getstring('cantban'));
-                        debugchan.send('<@&' + config.roles.Admin + '> ' + msg.author.tag + lang.getstring('triedtoban') + messageparts[1] + '.');
-                    }
-                // case "warn":
-                //     if (msg.member !== null) {
-                //         warn(msg.guild, msg.author, messageparts[1].match(/\d*\d/)[0], message.substr(0, (messageparts[0].length + messageparts[1].length)));
-                //     }
-                    break;
                 case "ask":
                     ask(messageparts, msg.author.tag);
-                    break;
-                case "slowmo":
-                    slow_mo(msg.author, 30, msg.channel);
-                    break;
-                case "debug_userdata":
-                    senddebug({msg: JSON.stringify(msg.guild.members)});
-                    break;
-                    //msg.guild.members.fetch().then(() => senddebug({msg: JSON.stringify(msg.guild.members)})).catch(err => senddebug(err));
-                case "unslowmo":
-                    if (msg.member !== null && is_mod_or_admin(msg.member)) {
-                        slow_mo(msg.author, 0, msg.channel);
-                    }
                     break;
                 case "validquestion":
                     if (msg.member !== null && is_admin(msg.member)) {
