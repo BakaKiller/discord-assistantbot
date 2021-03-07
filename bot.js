@@ -167,7 +167,7 @@ function warn(guild, warner, memberid, message) {
  * @param  {int} nb
  */
 function clean(chan, nb) {
-    chan.fetchMessages({limit: nb}).then(messages => messages.forEach(msg => msg.delete()))
+    chan.messages.fetch({limit: nb}).then(messages => messages.forEach(msg => msg.delete()))
 }
 /**
  * @param  {string} msg
